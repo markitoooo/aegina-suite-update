@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegina Suites | Luxury Property Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #146EF5;
@@ -16,6 +16,7 @@
             --text-color: var(--black);
             --bg-color: var(--white);
             --section-bg: var(--white);
+            --nav-glow: 0 8px 32px rgba(20, 110, 245, 0.12);
         }
 
         [data-theme="dark"] {
@@ -26,6 +27,7 @@
             --section-bg: #1D1D1F;
             --gray: #A0A0A0;
             --light-gray: #2C2C2E;
+            --nav-glow: 0 8px 32px rgba(20, 110, 245, 0.2);
         }
 
         * {
@@ -45,14 +47,14 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        /* Liquid Glass Navigation - Fixed */
+        /* Enhanced Liquid Glass Navigation */
         nav {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: auto;
-            padding: 14px 32px;
+            padding: 16px 40px;
             display: flex;
             align-items: center;
             z-index: 100;
@@ -60,7 +62,7 @@
             backdrop-filter: saturate(180%) blur(8px);
             -webkit-backdrop-filter: saturate(180%) blur(8px);
             border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), var(--nav-glow);
             border: 0.5px solid rgba(0, 0, 0, 0.06);
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
@@ -74,7 +76,7 @@
             font-weight: 600;
             color: var(--text-color);
             text-decoration: none;
-            margin-right: 40px;
+            margin-right: 48px; /* Increased spacing */
         }
 
         .logo span {
@@ -83,7 +85,7 @@
 
         .nav-links {
             display: flex;
-            gap: 28px;
+            gap: 36px; /* Increased spacing between links */
         }
 
         .nav-links a {
@@ -116,7 +118,7 @@
             width: 100%;
         }
 
-        /* Hero Section */
+        /* Enhanced Hero Section */
         .hero {
             height: 100vh;
             display: flex;
@@ -130,9 +132,11 @@
 
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 600;
+            font-weight: 700;
+            font-family: 'Manrope', sans-serif;
             margin-bottom: 24px;
             line-height: 1.1;
+            letter-spacing: -0.5px;
         }
 
         .hero p {
@@ -170,7 +174,7 @@
             background: var(--primary);
         }
 
-        /* Team Section - Fixed */
+        /* Team Section */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -207,7 +211,7 @@
             line-height: 1.7;
         }
 
-        /* Report Section - Fixed */
+        /* Report Section */
         .report-btn {
             display: inline-flex;
             align-items: center;
@@ -228,7 +232,7 @@
             color: white;
         }
 
-        /* Theme Toggle - Fixed */
+        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             bottom: 30px;
@@ -265,15 +269,15 @@
         @media (max-width: 768px) {
             nav {
                 width: 90%;
-                padding: 12px 24px;
+                padding: 14px 24px;
             }
 
             .logo {
-                margin-right: 20px;
+                margin-right: 24px;
             }
 
             .nav-links {
-                gap: 15px;
+                gap: 20px;
             }
 
             .nav-links a {
@@ -287,7 +291,7 @@
     </style>
 </head>
 <body data-theme="light">
-    <!-- Liquid Glass Navigation -->
+    <!-- Enhanced Liquid Glass Navigation -->
     <nav>
         <a href="#" class="logo">Aegina<span>Suites</span></a>
         <div class="nav-links">
@@ -297,7 +301,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Modern Font -->
     <section class="hero">
         <h1>Redefining <span style="color: var(--primary)">Luxury Living</span> in the Saronic Gulf</h1>
         <p>Six exclusive suites blending minimalist design with unparalleled comfort</p>
@@ -309,7 +313,7 @@
         <p>At Aegina Suites, we believe true luxury lies in the harmony of space, light, and exceptional craftsmanship.</p>
     </section>
 
-    <!-- Team Section - Fixed -->
+    <!-- Team Section -->
     <section id="team" class="section">
         <h2 class="section-title">Leadership</h2>
         <div class="team-grid">
@@ -324,7 +328,7 @@
         </div>
     </section>
 
-    <!-- Earnings Section - Fixed -->
+    <!-- Earnings Section -->
     <section id="report" class="section">
         <h2 class="section-title">Annual Report</h2>
         <p>Download our latest financial reports and corporate documentation.</p>
@@ -333,11 +337,11 @@
         </a>
     </section>
 
-    <!-- Theme Toggle Button - Fixed -->
+    <!-- Theme Toggle Button -->
     <button class="theme-toggle" aria-label="Toggle theme"></button>
 
     <script>
-        // Theme Toggle - Fixed
+        // Theme Toggle
         const themeToggle = document.querySelector('.theme-toggle');
         const html = document.documentElement;
 
