@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegina Suites | Luxury Property Management</title>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #146EF5;
@@ -12,7 +12,7 @@
             --white: #FFFFFF;
             --gray: #86868B;
             --light-gray: #F5F5F7;
-            --nav-bg: rgba(255, 255, 255, 0.8);
+            --nav-bg: rgba(255, 255, 255, 0.85);
             --text-color: var(--black);
             --bg-color: var(--white);
             --section-bg: var(--white);
@@ -20,11 +20,12 @@
 
         [data-theme="dark"] {
             --primary: #3A84F5;
-            --nav-bg: rgba(29, 29, 31, 0.8);
+            --nav-bg: rgba(29, 29, 31, 0.85);
             --text-color: var(--white);
             --bg-color: #121212;
             --section-bg: #1D1D1F;
             --gray: #A0A0A0;
+            --light-gray: #2C2C2E;
         }
 
         * {
@@ -32,6 +33,7 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         html, body {
@@ -40,69 +42,31 @@
             background: var(--bg-color);
             color: var(--text-color);
             transition: background 0.5s ease, color 0.3s ease;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        /* Theme Toggle - Minimalist */
-        .theme-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 30px;
-            background: var(--light-gray);
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border: none;
-            appearance: none;
-        }
-
-        .theme-toggle::before {
-            content: '';
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: var(--primary);
-            transform: translateX(3px);
-            top: 2px;
-            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
-        [data-theme="dark"] .theme-toggle::before {
-            transform: translateX(31px);
-        }
-
-        /* Apple Liquid Glass Navigation - Refined */
+        /* Liquid Glass Navigation - Fixed */
         nav {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: auto;
-            max-width: 600px;
-            padding: 16px 40px;
+            padding: 14px 32px;
             display: flex;
-            justify-content: center;
             align-items: center;
             z-index: 100;
             background: var(--nav-bg);
-            backdrop-filter: saturate(180%) blur(12px);
-            -webkit-backdrop-filter: saturate(180%) blur(12px);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            backdrop-filter: saturate(180%) blur(8px);
+            -webkit-backdrop-filter: saturate(180%) blur(8px);
             border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 0.5px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         [data-theme="dark"] nav {
-            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border: 0.5px solid rgba(255, 255, 255, 0.06);
         }
 
         .logo {
@@ -119,7 +83,7 @@
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 28px;
         }
 
         .nav-links a {
@@ -127,20 +91,21 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
             position: relative;
-            transition: color 0.3s ease;
+            padding: 8px 0;
+            transition: all 0.3s ease;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: 0;
             left: 0;
             width: 0;
-            height: 1px;
+            height: 2px;
             background: var(--primary);
-            transition: width 0.3s ease;
+            transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .nav-links a:hover {
@@ -174,7 +139,7 @@
             font-size: clamp(1rem, 2vw, 1.25rem);
             color: var(--gray);
             max-width: 600px;
-            margin: 0 auto 40px;
+            margin: 0 auto;
         }
 
         /* Content Sections */
@@ -190,7 +155,7 @@
         .section-title {
             font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 600;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
             position: relative;
             display: inline-block;
         }
@@ -205,11 +170,12 @@
             background: var(--primary);
         }
 
-        /* Team Section */
+        /* Team Section - Fixed */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
+            margin-top: 40px;
         }
 
         .team-card {
@@ -231,7 +197,8 @@
 
         .team-card h3 {
             font-size: 1.25rem;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            color: var(--primary);
         }
 
         .team-card p {
@@ -240,19 +207,20 @@
             line-height: 1.7;
         }
 
-        /* Annual Report Section */
+        /* Report Section - Fixed */
         .report-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             color: var(--primary);
             text-decoration: none;
             font-size: 16px;
             font-weight: 500;
             border: 1px solid var(--primary);
-            padding: 12px 24px;
+            padding: 12px 28px;
             border-radius: 30px;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .report-btn:hover {
@@ -260,113 +228,74 @@
             color: white;
         }
 
-        /* Mobile Menu */
+        /* Theme Toggle - Fixed */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 30px;
+            background: var(--light-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: none;
+            appearance: none;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--primary);
+            left: 2px;
+            top: 2px;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        [data-theme="dark"] .theme-toggle::before {
+            transform: translateX(30px);
+        }
+
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
             nav {
                 width: 90%;
-                padding: 14px 24px;
-                justify-content: space-between;
-            }
-
-            .nav-links {
-                display: none;
+                padding: 12px 24px;
             }
 
             .logo {
-                margin-right: 0;
+                margin-right: 20px;
             }
 
-            .mobile-menu-btn {
-                display: block;
-                width: 24px;
-                height: 24px;
-                position: relative;
-                cursor: pointer;
+            .nav-links {
+                gap: 15px;
             }
 
-            .mobile-menu-btn span {
-                display: block;
-                width: 100%;
-                height: 1px;
-                background: var(--text-color);
-                position: absolute;
-                left: 0;
-                transition: all 0.3s ease;
+            .nav-links a {
+                font-size: 13px;
             }
 
-            .mobile-menu-btn span:nth-child(1) {
-                top: 6px;
-            }
-
-            .mobile-menu-btn span:nth-child(2) {
-                top: 12px;
-            }
-
-            .mobile-menu-btn span:nth-child(3) {
-                top: 18px;
-            }
-
-            .mobile-menu {
-                position: fixed;
-                top: 80px;
-                left: 5%;
-                width: 90%;
-                background: var(--nav-bg);
-                backdrop-filter: saturate(180%) blur(12px);
-                -webkit-backdrop-filter: saturate(180%) blur(12px);
-                padding: 20px;
-                display: none;
-                z-index: 99;
-                border-radius: 16px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-                border: 0.5px solid rgba(0, 0, 0, 0.08);
-            }
-
-            [data-theme="dark"] .mobile-menu {
-                border: 0.5px solid rgba(255, 255, 255, 0.08);
-            }
-
-            .mobile-menu.active {
-                display: block;
-            }
-
-            .mobile-menu a {
-                display: block;
-                padding: 12px 0;
-                color: var(--text-color);
-                text-decoration: none;
-                font-size: 16px;
-                text-align: center;
+            .team-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body data-theme="light">
-    <!-- Navigation -->
-    <nav id="navbar">
+    <!-- Liquid Glass Navigation -->
+    <nav>
         <a href="#" class="logo">Aegina<span>Suites</span></a>
         <div class="nav-links">
             <a href="#about">About</a>
-            <a href="#properties">Properties</a>
-            <a href="#team">Leadership</a>
-            <a href="#report">Reports</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <div class="mobile-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
+            <a href="#team">Team</a>
+            <a href="#report">Earnings</a>
         </div>
     </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <a href="#about">About</a>
-        <a href="#properties">Properties</a>
-        <a href="#team">Leadership</a>
-        <a href="#report">Reports</a>
-        <a href="#contact">Contact</a>
-    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -377,10 +306,10 @@
     <!-- About Section -->
     <section id="about" class="section">
         <h2 class="section-title">Our Philosophy</h2>
-        <p>At Aegina Suites, we believe true luxury lies in the harmony of space, light, and exceptional craftsmanship. Our properties in Aegina Island represent a new standard in minimalist luxury living.</p>
+        <p>At Aegina Suites, we believe true luxury lies in the harmony of space, light, and exceptional craftsmanship.</p>
     </section>
 
-    <!-- Team Section -->
+    <!-- Team Section - Fixed -->
     <section id="team" class="section">
         <h2 class="section-title">Leadership</h2>
         <div class="team-grid">
@@ -395,101 +324,43 @@
         </div>
     </section>
 
-    <!-- Annual Report Section -->
+    <!-- Earnings Section - Fixed -->
     <section id="report" class="section">
         <h2 class="section-title">Annual Report</h2>
-        <p>Download our latest financial report to learn more about our company's performance and future plans.</p>
+        <p>Download our latest financial reports and corporate documentation.</p>
         <a href="AeginaSuite_AnnualReport.pdf" class="report-btn">
             Download Report
         </a>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <h2 class="section-title">Experience Aegina</h2>
-        <p>For inquiries about our upcoming properties or investment opportunities, please contact us at <a href="mailto:info@aeginasuites.com" style="color: var(--primary); text-decoration: none;">info@aeginasuites.com</a></p>
-    </section>
-
-    <!-- Theme Toggle Button -->
+    <!-- Theme Toggle Button - Fixed -->
     <button class="theme-toggle" aria-label="Toggle theme"></button>
 
     <script>
-        // Mobile Menu
-        const menuBtn = document.querySelector('.mobile-menu-btn');
-        const mobileMenu = document.querySelector('.mobile-menu');
-
-        menuBtn.addEventListener('click', () => {
-            menuBtn.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-        });
-
-        // Theme Toggle
+        // Theme Toggle - Fixed
         const themeToggle = document.querySelector('.theme-toggle');
         const html = document.documentElement;
+
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
 
         themeToggle.addEventListener('click', () => {
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+            setTheme(newTheme);
         });
 
-        // Check for saved theme preference
+        // Initialize theme
         if (localStorage.getItem('theme')) {
-            html.setAttribute('data-theme', localStorage.getItem('theme'));
+            setTheme(localStorage.getItem('theme'));
         }
 
-        // Three.js - Minimal background elements
-        if (window.innerWidth > 768) {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.domElement.style.position = 'fixed';
-            renderer.domElement.style.top = '0';
-            renderer.domElement.style.left = '0';
-            renderer.domElement.style.zIndex = '-1';
-            renderer.domElement.style.opacity = '0.03';
-            document.body.appendChild(renderer.domElement);
-
-            const geometry = new THREE.IcosahedronGeometry(0.5, 0);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0x146EF5,
-                wireframe: true
-            });
-
-            const shapes = [];
-            for (let i = 0; i < 5; i++) {
-                const shape = new THREE.Mesh(geometry, material);
-                shape.position.x = (Math.random() - 0.5) * 10;
-                shape.position.y = (Math.random() - 0.5) * 10;
-                shape.position.z = (Math.random() - 0.5) * 10;
-                shape.userData = {
-                    speed: Math.random() * 0.003 + 0.001,
-                    rotationSpeed: Math.random() * 0.005 + 0.003
-                };
-                shapes.push(shape);
-                scene.add(shape);
-            }
-
-            function animate() {
-                requestAnimationFrame(animate);
-                shapes.forEach(shape => {
-                    shape.rotation.x += shape.userData.rotationSpeed;
-                    shape.rotation.y += shape.userData.rotationSpeed;
-                });
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        }
+        // Font loading fallback
+        document.fonts.ready.then(() => {
+            document.body.style.fontFamily = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif";
+        });
     </script>
 </body>
 </html>
