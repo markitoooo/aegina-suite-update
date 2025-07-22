@@ -4,8 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegina Suites | Luxury Property Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <style>
-        /* Reset */
+        :root {
+            --primary: #146EF5;
+            --black: #1D1D1F;
+            --white: #FFFFFF;
+            --gray: #86868B;
+            --light-gray: #F5F5F7;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --text-color: var(--black);
+            --bg-color: var(--white);
+            --section-bg: var(--white);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3A84F5;
+            --nav-bg: rgba(29, 29, 31, 0.8);
+            --text-color: var(--white);
+            --bg-color: #121212;
+            --section-bg: #1D1D1F;
+            --gray: #A0A0A0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,105 +34,102 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        html {
-            scroll-behavior: smooth;
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.5s ease, color 0.3s ease;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: white;
-            color: black;
             line-height: 1.6;
         }
 
-        /* Loader */
-        .loader {
+        /* Theme Toggle - Minimalist */
+        .theme-toggle {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 30px;
+            background: var(--light-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: none;
+            appearance: none;
         }
 
-        .loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(20, 110, 245, 0.2);
-            border-top-color: #146EF5;
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            background: var(--primary);
+            transform: translateX(3px);
+            top: 2px;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        [data-theme="dark"] .theme-toggle::before {
+            transform: translateX(31px);
         }
 
-        /* Navigation */
+        /* Apple Liquid Glass Navigation - Refined */
         nav {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 800px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            padding: 12px 24px;
-            z-index: 1000;
+            width: auto;
+            max-width: 600px;
+            padding: 16px 40px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            transition: all 0.3s ease;
+            z-index: 100;
+            background: var(--nav-bg);
+            backdrop-filter: saturate(180%) blur(12px);
+            -webkit-backdrop-filter: saturate(180%) blur(12px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
         }
 
-        nav.scrolled {
-            top: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        [data-theme="dark"] nav {
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
         }
 
         .logo {
-            font-weight: 600;
-            color: black;
-            text-decoration: none;
             font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-right: 40px;
         }
 
         .logo span {
-            color: #146EF5;
+            color: var(--primary);
         }
 
         .nav-links {
             display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 32px;
+            gap: 30px;
         }
 
         .nav-links a {
-            color: black;
+            color: var(--text-color);
             text-decoration: none;
+            font-size: 14px;
             font-weight: 500;
-            font-size: 15px;
-            transition: color 0.2s ease;
+            letter-spacing: 0.5px;
             position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #146EF5;
+            transition: color 0.3s ease;
         }
 
         .nav-links a::after {
@@ -120,154 +138,142 @@
             bottom: -4px;
             left: 0;
             width: 0;
-            height: 2px;
-            background: #146EF5;
+            height: 1px;
+            background: var(--primary);
             transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
         }
 
         .nav-links a:hover::after {
             width: 100%;
         }
 
-        /* Main content spacing */
-        main {
-            padding-top: 120px;
-        }
-
-        /* Sections */
-        .section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 100px 24px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header */
-        #header {
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding-top: 60px;
+            padding: 0 5%;
+            position: relative;
         }
 
-        #header h1 {
-            font-size: 48px;
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 600;
             margin-bottom: 24px;
-            color: black;
+            line-height: 1.1;
         }
 
-        #header p {
-            font-size: 20px;
-            color: #333;
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--gray);
             max-width: 600px;
             margin: 0 auto 40px;
         }
 
-        .divider {
-            width: 80px;
-            height: 3px;
-            background: #146EF5;
-            margin: 40px auto;
+        /* Content Sections */
+        .section {
+            padding: 120px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            background: var(--section-bg);
+            transition: background 0.5s ease;
         }
 
-        /* About */
-        #about p {
-            margin-bottom: 20px;
-            color: #333;
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
         }
 
-        /* Team */
-        .team-container {
-            display: flex;
-            justify-content: center;
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
-            margin-top: 60px;
         }
 
-        .team-member {
-            width: 45%;
+        .team-card {
+            background: var(--section-bg);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .team-member h3 {
-            font-size: 20px;
+        [data-theme="dark"] .team-card {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-card h3 {
+            font-size: 1.25rem;
             margin-bottom: 8px;
-            color: black;
         }
 
-        .team-member p {
-            color: #666;
-            font-size: 16px;
+        .team-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
             line-height: 1.7;
         }
 
-        /* Report */
+        /* Annual Report Section */
         .report-btn {
-            display: inline-block;
-            color: #146EF5;
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
             text-decoration: none;
             font-size: 16px;
             font-weight: 500;
-            border: 1px solid #146EF5;
-            padding: 12px 28px;
-            border-radius: 6px;
+            border: 1px solid var(--primary);
+            padding: 12px 24px;
+            border-radius: 30px;
             transition: all 0.3s ease;
             margin-top: 20px;
         }
 
         .report-btn:hover {
-            background: #146EF5;
+            background: var(--primary);
             color: white;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 60px 24px;
-            border-top: 1px solid #eee;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            margin: 30px 0;
-        }
-
-        .footer-links li {
-            margin: 0 15px;
-        }
-
-        .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            color: #146EF5;
-        }
-
-        .copyright {
-            color: #999;
-            font-size: 13px;
-        }
-
-        /* Mobile */
+        /* Mobile Menu */
         @media (max-width: 768px) {
             nav {
-                padding: 12px 16px;
-                width: calc(100% - 32px);
+                width: 90%;
+                padding: 14px 24px;
+                justify-content: space-between;
             }
 
             .nav-links {
                 display: none;
+            }
+
+            .logo {
+                margin-right: 0;
             }
 
             .mobile-menu-btn {
@@ -281,8 +287,8 @@
             .mobile-menu-btn span {
                 display: block;
                 width: 100%;
-                height: 2px;
-                background: black;
+                height: 1px;
+                background: var(--text-color);
                 position: absolute;
                 left: 0;
                 transition: all 0.3s ease;
@@ -293,103 +299,59 @@
             }
 
             .mobile-menu-btn span:nth-child(2) {
-                top: 11px;
+                top: 12px;
             }
 
             .mobile-menu-btn span:nth-child(3) {
-                top: 16px;
-            }
-
-            .mobile-menu-btn.active span:nth-child(1) {
-                transform: rotate(45deg);
-                top: 11px;
-            }
-
-            .mobile-menu-btn.active span:nth-child(2) {
-                opacity: 0;
-            }
-
-            .mobile-menu-btn.active span:nth-child(3) {
-                transform: rotate(-45deg);
-                top: 11px;
+                top: 18px;
             }
 
             .mobile-menu {
                 position: fixed;
                 top: 80px;
-                left: 0;
-                width: 100%;
-                background: white;
+                left: 5%;
+                width: 90%;
+                background: var(--nav-bg);
+                backdrop-filter: saturate(180%) blur(12px);
+                -webkit-backdrop-filter: saturate(180%) blur(12px);
                 padding: 20px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
                 display: none;
-                z-index: 999;
+                z-index: 99;
+                border-radius: 16px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                border: 0.5px solid rgba(0, 0, 0, 0.08);
+            }
+
+            [data-theme="dark"] .mobile-menu {
+                border: 0.5px solid rgba(255, 255, 255, 0.08);
             }
 
             .mobile-menu.active {
                 display: block;
             }
 
-            .mobile-menu ul {
-                list-style: none;
-            }
-
-            .mobile-menu li {
-                margin: 20px 0;
-                text-align: center;
-            }
-
             .mobile-menu a {
-                color: black;
+                display: block;
+                padding: 12px 0;
+                color: var(--text-color);
                 text-decoration: none;
-                font-weight: 500;
                 font-size: 16px;
-            }
-
-            #header h1 {
-                font-size: 36px;
-            }
-
-            #header p {
-                font-size: 18px;
-            }
-
-            .section {
-                padding: 80px 24px;
-            }
-
-            .team-container {
-                flex-direction: column;
-                gap: 40px;
-            }
-
-            .team-member {
-                width: 100%;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-menu-btn, .mobile-menu {
-                display: none;
+                text-align: center;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Loader -->
-    <div class="loader">
-        <div class="loader-spinner"></div>
-    </div>
-
+<body data-theme="light">
     <!-- Navigation -->
     <nav id="navbar">
         <a href="#" class="logo">Aegina<span>Suites</span></a>
-        <ul class="nav-links">
-            <li><a href="#header">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#team">Leadership</a></li>
-            <li><a href="#annual-report">Reports</a></li>
-        </ul>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#properties">Properties</a>
+            <a href="#team">Leadership</a>
+            <a href="#report">Reports</a>
+            <a href="#contact">Contact</a>
+        </div>
         <div class="mobile-menu-btn">
             <span></span>
             <span></span>
@@ -399,123 +361,135 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu">
-        <ul>
-            <li><a href="#header">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#team">Leadership</a></li>
-            <li><a href="#annual-report">Reports</a></li>
-        </ul>
+        <a href="#about">About</a>
+        <a href="#properties">Properties</a>
+        <a href="#team">Leadership</a>
+        <a href="#report">Reports</a>
+        <a href="#contact">Contact</a>
     </div>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Header -->
-        <section id="header" class="section">
-            <h1>Aegina Suites</h1>
-            <p>Luxury property management in the Saronic Gulf</p>
-            <div class="divider"></div>
-        </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Redefining <span style="color: var(--primary)">Luxury Living</span> in the Saronic Gulf</h1>
+        <p>Six exclusive suites blending minimalist design with unparalleled comfort</p>
+    </section>
 
-        <!-- About -->
-        <section id="about" class="section">
-            <h2>About</h2>
-            <p>Aegina Suites is currently developing six exclusive luxury suites on the beautiful island of Aegina, offering unparalleled comfort and sophistication in the heart of the Saronic Gulf.</p>
-            <p>Our properties combine contemporary design with traditional Greek hospitality, creating exceptional living experiences for our discerning clients.</p>
-        </section>
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title">Our Philosophy</h2>
+        <p>At Aegina Suites, we believe true luxury lies in the harmony of space, light, and exceptional craftsmanship. Our properties in Aegina Island represent a new standard in minimalist luxury living.</p>
+    </section>
 
-        <!-- Team -->
-        <section id="team" class="section">
-            <h2>Leadership</h2>
-            <div class="team-container">
-                <div class="team-member">
-                    <h3>Panagiotis Markidis</h3>
-                    <p>Founder & CEO with a vision for creating exceptional luxury properties that redefine hospitality standards in the Saronic Gulf.</p>
-                </div>
-                <div class="team-member">
-                    <h3>Christina Economopoulou</h3>
-                    <p>Co-Founder specializing in blending modern luxury with the authentic charm of Aegina's architectural heritage.</p>
-                </div>
+    <!-- Team Section -->
+    <section id="team" class="section">
+        <h2 class="section-title">Leadership</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <h3>Panagiotis Markidis</h3>
+                <p>Founder & CEO with a vision for creating architectural masterpieces that respect Aegina's natural beauty while delivering modern luxury.</p>
             </div>
-        </section>
+            <div class="team-card">
+                <h3>Christina Economopoulou</h3>
+                <p>Co-Founder specializing in curating experiences that blend contemporary design with authentic Greek hospitality traditions.</p>
+            </div>
+        </div>
+    </section>
 
-        <!-- Annual Report -->
-        <section id="annual-report" class="section">
-            <h2>Corporate Documentation</h2>
-            <p>Access our latest financial reports and corporate documentation.</p>
-            <a href="AeginaSuite_AnnualReport.pdf" class="report-btn">Download Annual Report</a>
-        </section>
-    </main>
+    <!-- Annual Report Section -->
+    <section id="report" class="section">
+        <h2 class="section-title">Annual Report</h2>
+        <p>Download our latest financial report to learn more about our company's performance and future plans.</p>
+        <a href="AeginaSuite_AnnualReport.pdf" class="report-btn">
+            Download Report
+        </a>
+    </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>Aegina Suites IKE</p>
-        <ul class="footer-links">
-            <li><a href="#header">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#team">Leadership</a></li>
-            <li><a href="#annual-report">Reports</a></li>
-        </ul>
-        <p class="copyright">© 2023 Aegina Suites IKE. All rights reserved.</p>
-    </footer>
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <h2 class="section-title">Experience Aegina</h2>
+        <p>For inquiries about our upcoming properties or investment opportunities, please contact us at <a href="mailto:info@aeginasuites.com" style="color: var(--primary); text-decoration: none;">info@aeginasuites.com</a></p>
+    </section>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" aria-label="Toggle theme"></button>
 
     <script>
-        // Loader
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.querySelector('.loader').classList.add('hidden');
-            }, 1000);
-        });
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        // Mobile Menu
+        const menuBtn = document.querySelector('.mobile-menu-btn');
         const mobileMenu = document.querySelector('.mobile-menu');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenuBtn.classList.toggle('active');
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
             mobileMenu.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenuBtn.classList.remove('active');
-                mobileMenu.classList.remove('active');
-            });
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
         });
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        // Check for saved theme preference
+        if (localStorage.getItem('theme')) {
+            html.setAttribute('data-theme', localStorage.getItem('theme'));
+        }
 
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+        // Three.js - Minimal background elements
+        if (window.innerWidth > 768) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.domElement.style.position = 'fixed';
+            renderer.domElement.style.top = '0';
+            renderer.domElement.style.left = '0';
+            renderer.domElement.style.zIndex = '-1';
+            renderer.domElement.style.opacity = '0.03';
+            document.body.appendChild(renderer.domElement);
+
+            const geometry = new THREE.IcosahedronGeometry(0.5, 0);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x146EF5,
+                wireframe: true
+            });
+
+            const shapes = [];
+            for (let i = 0; i < 5; i++) {
+                const shape = new THREE.Mesh(geometry, material);
+                shape.position.x = (Math.random() - 0.5) * 10;
+                shape.position.y = (Math.random() - 0.5) * 10;
+                shape.position.z = (Math.random() - 0.5) * 10;
+                shape.userData = {
+                    speed: Math.random() * 0.003 + 0.001,
+                    rotationSpeed: Math.random() * 0.005 + 0.003
+                };
+                shapes.push(shape);
+                scene.add(shape);
             }
-        });
 
-        // Section fade-in animation
-        const sections = document.querySelectorAll('.section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+            function animate() {
+                requestAnimationFrame(animate);
+                shapes.forEach(shape => {
+                    shape.rotation.x += shape.userData.rotationSpeed;
+                    shape.rotation.y += shape.userData.rotationSpeed;
+                });
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
             });
-        }, { threshold: 0.1 });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        }
     </script>
 </body>
 </html>
