@@ -4,8 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegina Suites | Luxury Property Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700&display=swap" rel="stylesheet">
     <style>
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #146EF5;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: opacity 1s ease-out;
+        }
+        
+        #loading-bar-container {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        #loading-bar {
+            height: 100%;
+            width: 0%;
+            background: white;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        #loading-text {
+            margin-top: 15px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        /* Rest of your existing CSS */
         :root {
             --primary: #146EF5;
             --black: #1D1D1F;
@@ -17,6 +72,7 @@
             --bg-color: var(--white);
             --section-bg: var(--white);
             --nav-glow: 0 8px 32px rgba(20, 110, 245, 0.15);
+            --topography-color: rgba(29, 29, 31, 0.2);
         }
 
         [data-theme="dark"] {
@@ -28,6 +84,7 @@
             --gray: #A0A0A0;
             --light-gray: #2C2C2E;
             --nav-glow: 0 8px 32px rgba(20, 110, 245, 0.25);
+            --topography-color: rgba(255, 255, 255, 0.2);
         }
 
         * {
@@ -36,7 +93,6 @@
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            cursor: none; /* Hide default cursor */
         }
 
         html, body {
@@ -59,7 +115,7 @@
             z-index: 9999;
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease;
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         @media (hover: hover) {
@@ -71,29 +127,32 @@
             }
         }
 
-        /* Hand-drawn Island Background */
+        /* Enhanced Topography Background */
         .island-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='1200' height='600' viewBox='0 0 1200 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 300 C150 250 300 350 450 300 C600 250 750 350 900 300 C1050 250 1200 350 1200 300' stroke='%231D1D1F' stroke-width='1.5' stroke-opacity='0.08' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='1200' height='600' viewBox='0 0 1200 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 300 Q300 200 600 300 T1200 300' stroke='%231D1D1F' stroke-width='1.5' stroke-opacity='0.2' stroke-linecap='round'/%3E%3Cpath d='M0 250 Q300 150 600 250 T1200 250' stroke='%231D1D1F' stroke-width='1.5' stroke-opacity='0.15' stroke-linecap='round'/%3E%3Cpath d='M0 350 Q300 250 600 350 T1200 350' stroke='%231D1D1F' stroke-width='1.5' stroke-opacity='0.15' stroke-linecap='round'/%3E%3C/svg%3E");
             background-size: 1200px 600px;
             background-position: center 70%;
             background-repeat: no-repeat;
             z-index: -1;
             pointer-events: none;
+            opacity: 0.8;
         }
 
         [data-theme="dark"] .island-bg {
-            background-image: url("data:image/svg+xml,%3Csvg width='1200' height='600' viewBox='0 0 1200 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 300 C150 250 300 350 450 300 C600 250 750 350 900 300 C1050 250 1200 350 1200 300' stroke='%23FFFFFF' stroke-width='1.5' stroke-opacity='0.08' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='1200' height='600' viewBox='0 0 1200 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 300 Q300 200 600 300 T1200 300' stroke='%23FFFFFF' stroke-width='1.5' stroke-opacity='0.2' stroke-linecap='round'/%3E%3Cpath d='M0 250 Q300 150 600 250 T1200 250' stroke='%23FFFFFF' stroke-width='1.5' stroke-opacity='0.15' stroke-linecap='round'/%3E%3Cpath d='M0 350 Q300 250 600 350 T1200 350' stroke='%23FFFFFF' stroke-width='1.5' stroke-opacity='0.15' stroke-linecap='round'/%3E%3C/svg%3E");
         }
 
         /* Liquid Glass Navigation */
         nav {
             position: fixed;
-            top: 20px;
+            top: 40px;
             left: 50%;
             transform: translateX(-50%);
             width: auto;
@@ -236,43 +295,68 @@
             width: 80px;
         }
 
-        /* Team Section */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 50px;
-            margin-top: 50px;
+        /* Team Section - Card Stack */
+        .team-stack {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 80px auto 0;
+            height: 500px;
+            perspective: 1000px;
         }
 
         .team-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: var(--section-bg);
             border-radius: 16px;
-            padding: 50px 40px;
+            padding: 60px 50px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
             transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
             border: 1px solid rgba(0, 0, 0, 0.06);
+            transform-style: preserve-3d;
+            transform-origin: center left;
+            transform: translateX(0) rotateY(0deg);
+            backface-visibility: hidden;
+            z-index: 1;
         }
 
         [data-theme="dark"] .team-card {
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-        }
-
         .team-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
             color: var(--primary);
             font-weight: 600;
         }
 
         .team-card p {
             color: var(--gray);
-            font-size: 1rem;
+            font-size: 1.1rem;
             line-height: 1.8;
+        }
+
+        /* Card positions and styling */
+        .team-card:nth-child(1) {
+            transform: translateX(0) rotateY(0deg);
+            z-index: 3;
+        }
+
+        .team-card:nth-child(2) {
+            transform: translateX(-30px) rotateY(5deg);
+            z-index: 2;
+            opacity: 0.95;
+            filter: brightness(0.98);
+        }
+
+        /* Active card state */
+        .team-card.active {
+            transform: translateX(0) rotateY(0deg) !important;
+            z-index: 4 !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
         }
 
         /* Report Section */
@@ -356,6 +440,7 @@
             }
 
             nav {
+                top: 20px;
                 width: 90%;
                 padding: 14px 24px;
             }
@@ -376,22 +461,78 @@
                 letter-spacing: -0.5px;
             }
 
-            .team-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
+            /* Mobile team stack */
+            .team-stack {
+                height: auto;
+                perspective: none;
+                margin-top: 50px;
             }
 
             .team-card {
+                position: relative;
+                width: 100%;
+                height: auto;
                 padding: 40px 30px;
+                margin-bottom: 30px;
+                transform: none !important;
+                opacity: 1 !important;
+                filter: none !important;
+                z-index: auto !important;
+            }
+
+            .team-card.active {
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
             }
         }
     </style>
 </head>
 <body data-theme="light">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <svg width="80" height="80" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
+                    <stop stop-color="#fff" stop-opacity="0" offset="0%"/>
+                    <stop stop-color="#fff" stop-opacity=".631" offset="63.146%"/>
+                    <stop stop-color="#fff" offset="100%"/>
+                </linearGradient>
+            </defs>
+            <g fill="none" fill-rule="evenodd">
+                <g transform="translate(1 1)">
+                    <path d="M36 18c0-9.94-8.06-18-18-18" id="Oval-2" stroke="url(#a)" stroke-width="2">
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from="0 18 18"
+                            to="360 18 18"
+                            dur="0.9s"
+                            repeatCount="indefinite" />
+                    </path>
+                    <circle fill="#fff" cx="36" cy="18" r="1">
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from="0 18 18"
+                            to="360 18 18"
+                            dur="0.9s"
+                            repeatCount="indefinite" />
+                    </circle>
+                </g>
+            </g>
+        </svg>
+        <div id="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <div id="loading-text">Loading Aegina Suites</div>
+    </div>
+    
+    <!-- Three.js Wave Animation Container -->
+    <div id="threejs-container"></div>
+
     <!-- Custom Cursor -->
     <div class="cursor"></div>
 
-    <!-- Hand-drawn Island Background -->
+    <!-- Enhanced Topography Background -->
     <div class="island-bg"></div>
 
     <!-- Navigation -->
@@ -419,12 +560,12 @@
     <!-- Team Section -->
     <section id="team" class="section">
         <h2 class="section-title">Leadership</h2>
-        <div class="team-grid">
-            <div class="team-card">
+        <div class="team-stack">
+            <div class="team-card active" data-card="1">
                 <h3>Panagiotis Markidis</h3>
                 <p>Founder & CEO with a vision for creating architectural masterpieces that respect Aegina's natural beauty while delivering modern luxury.</p>
             </div>
-            <div class="team-card">
+            <div class="team-card" data-card="2">
                 <h3>Christina Economopoulou</h3>
                 <p>Co-Founder specializing in curating experiences that blend contemporary design with authentic Greek hospitality traditions.</p>
             </div>
@@ -444,6 +585,83 @@
     <button class="theme-toggle" aria-label="Toggle theme"></button>
 
     <script>
+        // Loading Animation
+        let loadingProgress = 0;
+        const loadingBar = document.getElementById('loading-bar');
+        const loadingText = document.getElementById('loading-text');
+        const loadingScreen = document.getElementById('loading-screen');
+        
+        // Simulate loading progress
+        const loadingInterval = setInterval(() => {
+            loadingProgress += Math.random() * 10;
+            if (loadingProgress > 100) loadingProgress = 100;
+            loadingBar.style.width = loadingProgress + '%';
+            
+            if (loadingProgress === 100) {
+                clearInterval(loadingInterval);
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        initThreeJS();
+                    }, 1000);
+                }, 500);
+            }
+        }, 200);
+        
+        // Three.js Wave Animation
+        function initThreeJS() {
+            const container = document.getElementById('threejs-container');
+            container.style.opacity = '1';
+            
+            // Scene setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+            
+            // Wave geometry
+            const geometry = new THREE.PlaneGeometry(20, 20, 50, 50);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x146EF5,
+                wireframe: false,
+                transparent: true,
+                opacity: 0.15
+            });
+            
+            const wave = new THREE.Mesh(geometry, material);
+            wave.rotation.x = -Math.PI / 2;
+            scene.add(wave);
+            
+            camera.position.z = 15;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Create wave effect
+                const time = Date.now() * 0.001;
+                const positions = geometry.attributes.position.array;
+                
+                for (let i = 0; i < positions.length; i += 3) {
+                    positions[i + 2] = Math.sin(time + positions[i] * 0.5) * 0.5;
+                }
+                
+                geometry.attributes.position.needsUpdate = true;
+                renderer.render(scene, camera);
+            }
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            animate();
+        }
+
         // Custom Cursor
         const cursor = document.querySelector('.cursor');
         
@@ -486,6 +704,28 @@
         if (localStorage.getItem('theme')) {
             setTheme(localStorage.getItem('theme'));
         }
+
+        // Team Card Stack Interaction
+        const teamCards = document.querySelectorAll('.team-card');
+        
+        teamCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove active class from all cards
+                teamCards.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked card
+                card.classList.add('active');
+                
+                // Reorder z-index for stacking effect
+                teamCards.forEach((c, index) => {
+                    if (c !== card) {
+                        c.style.zIndex = teamCards.length - index;
+                    } else {
+                        c.style.zIndex = teamCards.length + 1;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
