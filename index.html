@@ -127,6 +127,7 @@
             color: var(--text-color);
             text-decoration: none;
             margin-right: 48px;
+            white-space: nowrap;
         }
 
         .logo span {
@@ -147,6 +148,7 @@
             position: relative;
             padding: 8px 0;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .nav-links a::after {
@@ -457,25 +459,33 @@
 
             nav {
                 width: 90%;
-                padding: 14px 24px;
+                padding: 14px 20px;
                 top: 20px; /* Original mobile position */
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .hero {
-                margin-top: 80px; /* Added to prevent overlap with nav on mobile */
+                margin-top: 100px; /* Increased to prevent overlap with nav on mobile */
                 padding-top: 20px; /* Extra padding to ensure content doesn't overlap */
             }
 
             .logo {
-                margin-right: 24px;
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: 100%;
+                text-align: center;
             }
 
             .nav-links {
-                gap: 20px;
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .nav-links a {
-                font-size: 13px;
+                font-size: 12px;
+                padding: 6px 0;
             }
 
             .hero h1 {
@@ -513,6 +523,25 @@
             .theme-toggle {
                 bottom: 30px;
                 right: 30px;
+            }
+        }
+
+        /* Microsoft Edge specific fixes */
+        @supports (-ms-ime-align:auto) {
+            /* Ensure consistent font rendering */
+            body {
+                -webkit-font-smoothing: subpixel-antialiased;
+            }
+            
+            /* Fix for navigation bar positioning */
+            nav {
+                transform: translateX(-50%) translateZ(0);
+            }
+            
+            /* Fix for gradient animation */
+            .hero h1 {
+                animation: none;
+                background: linear-gradient(to right, var(--text-color) 0%, var(--primary) 100%);
             }
         }
     </style>
