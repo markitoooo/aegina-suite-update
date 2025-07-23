@@ -206,8 +206,70 @@
             font-size: clamp(1.1rem, 2.2vw, 1.4rem);
             color: var(--gray);
             max-width: 700px;
-            margin: 0 auto;
+            margin: 0 auto 40px;
             line-height: 1.6;
+        }
+
+        /* Hero Buttons */
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border: 1px solid var(--primary);
+            padding: 14px 32px;
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero-btn.secondary {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .hero-btn.secondary:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(20, 110, 245, 0.3);
+        }
+
+        .hero-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(20, 110, 245, 0.3);
+        }
+
+        .hero-btn.secondary:hover::before {
+            transform: translateX(0);
         }
 
         /* Content Sections */
@@ -409,6 +471,15 @@
                 letter-spacing: -0.5px;
             }
 
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .hero-btn {
+                width: 100%;
+            }
+
             .team-members {
                 gap: 40px;
             }
@@ -426,6 +497,10 @@
                 left: 50%;
                 transform: translateX(-50%);
                 width: max-content;
+            }
+
+            .theme-toggle {
+                bottom: 140px;
             }
         }
     </style>
@@ -451,6 +526,10 @@
     <section class="hero">
         <h1>Redefining Luxury Living in the Saronic Gulf</h1>
         <p>Currently building six exclusive suites blending minimalist design with unparalleled comfort, creating harmony between architecture and Aegina's natural beauty</p>
+        <div class="hero-buttons">
+            <a href="#about" class="hero-btn primary">Our Philosophy</a>
+            <a href="#report" class="hero-btn secondary">View Earnings</a>
+        </div>
     </section>
 
     <!-- About Section -->
@@ -499,7 +578,7 @@
         });
 
         // Interactive elements cursor effect
-        const interactiveElements = document.querySelectorAll('a, button, .team-member, .report-btn');
+        const interactiveElements = document.querySelectorAll('a, button, .team-member, .report-btn, .hero-btn');
         
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -541,6 +620,8 @@
         const englishContent = {
             heroTitle: "Redefining Luxury Living in the Saronic Gulf",
             heroSubtitle: "Currently building six exclusive suites blending minimalist design with unparalleled comfort, creating harmony between architecture and Aegina's natural beauty",
+            heroButton1: "Our Philosophy",
+            heroButton2: "View Earnings",
             aboutTitle: "Our Philosophy",
             aboutText: "At Aegina Suites, we believe true luxury lies in the harmony of space, light, and exceptional craftsmanship. Our properties in Aegina Island represent a new standard in minimalist luxury living.",
             teamTitle: "Leadership",
@@ -560,27 +641,29 @@
             navLinks: ["About", "Team", "Earnings"]
         };
         
-        // Greek content
+        // Greek content (natural translations)
         const greekContent = {
-            heroTitle: "Ανακαθορίζοντας την Πολυτελή Διαβίωση στο Σαρωνικό",
-            heroSubtitle: "Κατασκευάζουμε έξι αποκλειστικά σουίτες που συνδυάζουν μινιμαλιστική σχεδίαση με απαράμιλλη άνεση, δημιουργώντας αρμονία μεταξύ αρχιτεκτονικής και της φυσικής ομορφιάς της Αίγινας",
+            heroTitle: "Αναπλάθοντας την Πολυτελή Διαβίωση στο Σαρωνικό",
+            heroSubtitle: "Αναπτύσσουμε έξι αποκλειστικές σουίτες που συνδυάζουν μινιμαλιστική αισθητική με απαράμιλλη άνεση, δημιουργώντας αρμονία μεταξύ αρχιτεκτονικής και της φυσικής ομορφιάς της Αίγινας",
+            heroButton1: "Η Φιλοσοφία μας",
+            heroButton2: "Οικονομικά Αποτελέσματα",
             aboutTitle: "Η Φιλοσοφία μας",
-            aboutText: "Στην Aegina Suites, πιστεύουμε ότι η πραγματική πολυτέλεια βρίσκεται στην αρμονία του χώρου, του φωτός και της εξαιρετικής κατασκευής. Οι ιδιότητές μας στο νησί της Αίγινας αντιπροσωπεύουν ένα νέο πρότυπο μινιμαλιστικής πολυτελούς διαβίωσης.",
-            teamTitle: "Ηγεσία",
+            aboutText: "Στην Aegina Suites, η αληθινή πολυτέλεια ορίζεται μέσα από την αρμονία του χώρου, του φωτός και της άριστης κατασκευής. Οι ιδιότητές μας στην Αίγινα θέτουν ένα νέο πρότυπο μινιμαλιστικής πολυτελούς διαβίωσης.",
+            teamTitle: "Η Ομάδα Διοίκησης",
             teamMembers: [
                 {
                     name: "Παναγιώτης Μαρκίδης",
-                    description: "Ιδρυτής & Διευθύνων Σύμβουλος με ένα όραμα για τη δημιουργία αρχιτεκτονικών αριστουργημάτων που σέβονται τη φυσική ομορφιά της Αίγινας ενώ προσφέρουν σύγχρονη πολυτέλεια."
+                    description: "Ιδρυτής και Διευθύνων Σύμβουλος με ένα όραμα για αρχιτεκτονικά αριστουργήματα που σεβόνται τη φυσική ομορφιά της Αίγινας προσφέροντας ταυτόχρονα σύγχρονη πολυτέλεια."
                 },
                 {
                     name: "Χριστίνα Οικονομοπούλου",
-                    description: "Συνιδρύτρια που ειδικεύεται στη δημιουργία εμπειριών που συνδυάζουν σύγχρονο σχεδιασμό με αυθεντικές ελληνικές παραδόσεις φιλοξενίας."
+                    description: "Συνιδρύτρια με ειδίκευση στη δημιουργία εμπειριών που συνδυάζουν σύγχρονο σχεδιασμό με την αυθεντική ελληνική παράδοση της φιλοξενίας."
                 }
             ],
             reportTitle: "Ετήσια Έκθεση",
-            reportText: "Κατεβάστε τις τελευταίες οικονομικές μας εκθέσεις και εταιρική τεκμηρίωση για να μάθετε σχετικά με την ανάπτυξη και τις μελλοντικές εξελίξεις μας.",
+            reportText: "Κατεβάστε τις τελευταίες οικονομικές μας εκθέσεις και εταιρική τεκμηρίωση για να ενημερωθείτε σχετικά με την ανάπτυξη και τις μελλοντικές εξελίξεις μας.",
             reportButton: "Λήψη Αναφοράς",
-            navLinks: ["Σχετικά", "Ομάδα", "Κέρδη"]
+            navLinks: ["Σχετικά", "Η Ομάδα", "Οικονομικά"]
         };
         
         function updateContent(lang) {
@@ -589,6 +672,8 @@
             // Update hero section
             document.querySelector('.hero h1').textContent = content.heroTitle;
             document.querySelector('.hero p').textContent = content.heroSubtitle;
+            document.querySelectorAll('.hero-btn')[0].textContent = content.heroButton1;
+            document.querySelectorAll('.hero-btn')[1].textContent = content.heroButton2;
             
             // Update about section
             document.querySelector('#about .section-title').textContent = content.aboutTitle;
