@@ -36,7 +36,7 @@
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            cursor: none; /* Hide default cursor */
+            cursor: none;
         }
 
         html, body {
@@ -48,14 +48,12 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        /* Center all content */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Custom Cursor (Desktop only) */
         .cursor {
             position: fixed;
             width: 10px;
@@ -66,7 +64,7 @@
             z-index: 9999;
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease;
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         @media (hover: hover) {
@@ -78,7 +76,6 @@
             }
         }
 
-        /* Hand-drawn Island Background */
         .island-bg {
             position: fixed;
             top: 0;
@@ -97,14 +94,13 @@
             background-image: url("data:image/svg+xml,%3Csvg width='1200' height='600' viewBox='0 0 1200 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 300 C150 250 300 350 450 300 C600 250 750 350 900 300 C1050 250 1200 350 1200 300' stroke='%23FFFFFF' stroke-width='1.5' stroke-opacity='0.08' stroke-linecap='round'/%3E%3C/svg%3E");
         }
 
-        /* Liquid Glass Navigation */
         nav {
             position: fixed;
-            top: 40px; /* Increased from 20px to add more spacing */
+            top: 25px;
             left: 50%;
             transform: translateX(-50%);
             width: auto;
-            padding: 16px 40px;
+            padding: 14px 32px;
             display: flex;
             align-items: center;
             z-index: 100;
@@ -170,7 +166,6 @@
             width: 100%;
         }
 
-        /* Hero Section with Animated Gradient */
         .hero {
             height: 100vh;
             display: flex;
@@ -181,7 +176,8 @@
             padding: 0 5%;
             position: relative;
             width: 100%;
-            margin-top: 20px; /* Added to prevent overlap with nav */
+            margin-top: 140px;
+            padding-top: 30px;
         }
 
         .hero h1 {
@@ -213,7 +209,6 @@
             line-height: 1.6;
         }
 
-        /* Hero Buttons */
         .hero-buttons {
             display: flex;
             gap: 20px;
@@ -275,7 +270,6 @@
             transform: translateX(0);
         }
 
-        /* Content Sections */
         .section {
             padding: 140px 5%;
             max-width: 1200px;
@@ -310,7 +304,6 @@
             width: 80px;
         }
 
-        /* Team Section - New Style (no cards) */
         .team-members {
             display: flex;
             flex-direction: column;
@@ -337,7 +330,6 @@
             max-width: 800px;
         }
 
-        /* Report Section */
         .report-btn {
             display: inline-flex;
             align-items: center;
@@ -378,7 +370,6 @@
             transform: translateX(0);
         }
 
-        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             bottom: 30px;
@@ -411,7 +402,6 @@
             transform: translateX(30px);
         }
 
-        /* Language Toggle Button */
         .language-toggle {
             position: fixed;
             bottom: 30px;
@@ -435,9 +425,7 @@
             transform: translateY(-2px);
         }
 
-        /* Mobile Responsiveness */
         @media (max-width: 1024px) {
-            /* iPad specific styles */
             body {
                 align-items: center;
             }
@@ -447,12 +435,11 @@
             }
             
             nav {
-                top: 30px; /* Slightly reduced from desktop but still more than original */
+                top: 25px;
             }
         }
 
         @media (max-width: 768px) {
-            /* Mobile styles */
             .island-bg {
                 background-size: 800px 400px;
             }
@@ -460,14 +447,14 @@
             nav {
                 width: 90%;
                 padding: 14px 20px;
-                top: 20px; /* Original mobile position */
+                top: 20px;
                 flex-wrap: wrap;
                 justify-content: center;
             }
 
             .hero {
-                margin-top: 100px; /* Increased to prevent overlap with nav on mobile */
-                padding-top: 20px; /* Extra padding to ensure content doesn't overlap */
+                margin-top: 120px;
+                padding-top: 20px;
             }
 
             .logo {
@@ -516,7 +503,7 @@
             .language-toggle {
                 bottom: 30px;
                 left: 30px;
-                transform: none; /* Remove the centering transform */
+                transform: none;
                 width: auto;
             }
 
@@ -526,22 +513,30 @@
             }
         }
 
-        /* Microsoft Edge specific fixes */
-        @supports (-ms-ime-align:auto) {
-            /* Ensure consistent font rendering */
-            body {
-                -webkit-font-smoothing: subpixel-antialiased;
+        /* Windows-specific fixes */
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            .hero {
+                margin-top: 160px;
             }
-            
-            /* Fix for navigation bar positioning */
             nav {
-                transform: translateX(-50%) translateZ(0);
+                top: 20px;
             }
-            
-            /* Fix for gradient animation */
-            .hero h1 {
-                animation: none;
-                background: linear-gradient(to right, var(--text-color) 0%, var(--primary) 100%);
+        }
+
+        @supports (-ms-ime-align:auto) {
+            .hero {
+                margin-top: 160px;
+            }
+            nav {
+                top: 20px;
+            }
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            @media (min-width: 768px) {
+                .hero {
+                    margin-top: 160px;
+                }
             }
         }
     </style>
@@ -682,7 +677,7 @@
             navLinks: ["About", "Team", "Earnings"]
         };
         
-        // Greek content (natural translations)
+        // Greek content
         const greekContent = {
             heroTitle: "Αναπλάθοντας την Πολυτελή Διαβίωση στο Σαρωνικό",
             heroSubtitle: "Αναπτύσσουμε έξι αποκλειστικές σουίτες που συνδυάζουν μινιμαλιστική αισθητική με απαράμιλλη άνεση, δημιουργώντας αρμονία μεταξύ αρχιτεκτονικής και της φυσικής ομορφιάς της Αίγινας",
@@ -710,17 +705,14 @@
         function updateContent(lang) {
             const content = lang === 'en' ? englishContent : greekContent;
             
-            // Update hero section
             document.querySelector('.hero h1').textContent = content.heroTitle;
             document.querySelector('.hero p').textContent = content.heroSubtitle;
             document.querySelectorAll('.hero-btn')[0].textContent = content.heroButton1;
             document.querySelectorAll('.hero-btn')[1].textContent = content.heroButton2;
             
-            // Update about section
             document.querySelector('#about .section-title').textContent = content.aboutTitle;
             document.querySelector('#about p').textContent = content.aboutText;
             
-            // Update team section
             document.querySelector('#team .section-title').textContent = content.teamTitle;
             const teamMembers = document.querySelectorAll('.team-member');
             teamMembers.forEach((member, index) => {
@@ -728,18 +720,15 @@
                 member.querySelector('p').textContent = content.teamMembers[index].description;
             });
             
-            // Update report section
             document.querySelector('#report .section-title').textContent = content.reportTitle;
             document.querySelector('#report p').textContent = content.reportText;
             document.querySelector('.report-btn').textContent = content.reportButton;
             
-            // Update navigation links
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach((link, index) => {
                 link.textContent = content.navLinks[index];
             });
             
-            // Update language toggle button
             languageToggle.textContent = lang === 'en' ? 'Ελληνικά' : 'English';
         }
         
@@ -754,88 +743,23 @@
             currentLanguage = localStorage.getItem('language');
             updateContent(currentLanguage);
         }
-    </script>
-</body>
-</html>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegina Suites | Luxury Property Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700&display=swap" rel="stylesheet">
-    <style>
-        /* [Previous CSS remains exactly the same until the hero section] */
-
-        /* Hero Section with Animated Gradient */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
-            position: relative;
-            width: 100%;
-            margin-top: 100px; /* Increased from 20px to prevent overlap on Windows */
-        }
-
-        /* [Rest of the CSS remains exactly the same] */
-
-        /* Windows-specific fixes */
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-            /* IE10+ specific styles */
-            .hero {
-                margin-top: 120px;
-            }
-        }
-
-        /* Chrome on Windows specific fixes */
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-            @media (min-width: 768px) {
-                .hero {
-                    margin-top: 120px;
-                }
-            }
-        }
-
-        /* Edge specific fixes */
-        @supports (-ms-ime-align:auto) {
-            .hero {
-                margin-top: 120px;
-            }
-        }
-    </style>
-</head>
-<body data-theme="light">
-    <!-- [All HTML content remains exactly the same] -->
-
-    <script>
-        // [All JavaScript remains exactly the same]
-
-        // Additional Windows detection and margin adjustment
+        // Windows detection and adjustment
         function adjustForWindows() {
-            // Detect Windows platform
             const isWindows = navigator.platform.indexOf('Win') > -1;
+            const isEdge = /Edg/.test(navigator.userAgent);
+            const isIE = /*@cc_on!@*/false || !!document.documentMode;
             
-            if (isWindows) {
-                // Adjust hero margin for Windows
-                const hero = document.querySelector('.hero');
-                if (hero) {
-                    hero.style.marginTop = '120px';
-                }
-                
-                // Additional Windows-specific adjustments if needed
+            if (isWindows || isEdge || isIE) {
+                document.querySelector('.hero').style.marginTop = '160px';
+                document.querySelector('nav').style.top = '20px';
             }
         }
 
-        // Run on load and if theme/language changes
         window.addEventListener('load', adjustForWindows);
         themeToggle.addEventListener('click', adjustForWindows);
         languageToggle.addEventListener('click', function() {
-            setTimeout(adjustForWindows, 50); // Small delay to allow content to update
+            setTimeout(adjustForWindows, 50);
         });
     </script>
 </body>
