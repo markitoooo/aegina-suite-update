@@ -100,7 +100,7 @@
         /* Liquid Glass Navigation */
         nav {
             position: fixed;
-            top: 20px;
+            top: 40px; /* Increased from 20px to add more spacing */
             left: 50%;
             transform: translateX(-50%);
             width: auto;
@@ -179,6 +179,7 @@
             padding: 0 5%;
             position: relative;
             width: 100%;
+            margin-top: 20px; /* Added to prevent overlap with nav */
         }
 
         .hero h1 {
@@ -442,6 +443,10 @@
             .section {
                 padding: 100px 5%;
             }
+            
+            nav {
+                top: 30px; /* Slightly reduced from desktop but still more than original */
+            }
         }
 
         @media (max-width: 768px) {
@@ -453,6 +458,12 @@
             nav {
                 width: 90%;
                 padding: 14px 24px;
+                top: 20px; /* Original mobile position */
+            }
+
+            .hero {
+                margin-top: 80px; /* Added to prevent overlap with nav on mobile */
+                padding-top: 20px; /* Extra padding to ensure content doesn't overlap */
             }
 
             .logo {
@@ -493,14 +504,15 @@
             }
 
             .language-toggle {
-                bottom: 80px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: max-content;
+                bottom: 30px;
+                left: 30px;
+                transform: none; /* Remove the centering transform */
+                width: auto;
             }
 
             .theme-toggle {
-                bottom: 140px;
+                bottom: 30px;
+                right: 30px;
             }
         }
     </style>
