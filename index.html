@@ -757,3 +757,86 @@
     </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegina Suites | Luxury Property Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* [Previous CSS remains exactly the same until the hero section] */
+
+        /* Hero Section with Animated Gradient */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            width: 100%;
+            margin-top: 100px; /* Increased from 20px to prevent overlap on Windows */
+        }
+
+        /* [Rest of the CSS remains exactly the same] */
+
+        /* Windows-specific fixes */
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            /* IE10+ specific styles */
+            .hero {
+                margin-top: 120px;
+            }
+        }
+
+        /* Chrome on Windows specific fixes */
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            @media (min-width: 768px) {
+                .hero {
+                    margin-top: 120px;
+                }
+            }
+        }
+
+        /* Edge specific fixes */
+        @supports (-ms-ime-align:auto) {
+            .hero {
+                margin-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- [All HTML content remains exactly the same] -->
+
+    <script>
+        // [All JavaScript remains exactly the same]
+
+        // Additional Windows detection and margin adjustment
+        function adjustForWindows() {
+            // Detect Windows platform
+            const isWindows = navigator.platform.indexOf('Win') > -1;
+            
+            if (isWindows) {
+                // Adjust hero margin for Windows
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    hero.style.marginTop = '120px';
+                }
+                
+                // Additional Windows-specific adjustments if needed
+            }
+        }
+
+        // Run on load and if theme/language changes
+        window.addEventListener('load', adjustForWindows);
+        themeToggle.addEventListener('click', adjustForWindows);
+        languageToggle.addEventListener('click', function() {
+            setTimeout(adjustForWindows, 50); // Small delay to allow content to update
+        });
+    </script>
+</body>
+</html>
