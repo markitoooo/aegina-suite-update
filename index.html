@@ -555,6 +555,7 @@
             <a href="#about">About</a>
             <a href="#team">Team</a>
             <a href="#report">Earnings</a>
+            <a href="#general-info">Company Info</a>
         </div>
     </nav>
 
@@ -595,6 +596,15 @@
         <p>Download our latest financial reports and corporate documentation to learn about our growth and future developments.</p>
         <a href="AeginaSuite_AnnualReport.pdf" class="report-btn">
             Download Report
+        </a>
+    </section>
+
+    <!-- New General Company Information Section -->
+    <section id="general-info" class="section">
+        <h2 class="section-title">General Company Information</h2>
+        <p>Access our corporate overview, company structure, registration details, and general business documentation for comprehensive company insights.</p>
+        <a href="AeginaSuite_GeneralInfo.pdf" class="report-btn">
+            Download General Information
         </a>
     </section>
 
@@ -674,7 +684,10 @@
             reportTitle: "Annual Report",
             reportText: "Download our latest financial reports and corporate documentation to learn about our growth and future developments.",
             reportButton: "Download Report",
-            navLinks: ["About", "Team", "Earnings"]
+            generalInfoTitle: "General Company Information",
+            generalInfoText: "Access our corporate overview, company structure, registration details, and general business documentation for comprehensive company insights.",
+            generalInfoButton: "Download General Information",
+            navLinks: ["About", "Team", "Earnings", "Company Info"]
         };
         
         // Greek content
@@ -699,7 +712,10 @@
             reportTitle: "Ετήσια Έκθεση",
             reportText: "Κατεβάστε τις τελευταίες οικονομικές μας εκθέσεις και εταιρική τεκμηρίωση για να ενημερωθείτε σχετικά με την ανάπτυξη και τις μελλοντικές εξελίξεις μας.",
             reportButton: "Λήψη Αναφοράς",
-            navLinks: ["Σχετικά", "Η Ομάδα", "Οικονομικά"]
+            generalInfoTitle: "Γενικές Πληροφορίες Εταιρείας",
+            generalInfoText: "Προσπελάστε την εταιρική μας επισκόπηση, τη δομή της εταιρείας, λεπτομέρειες εγγραφής και γενική επιχειρηματική τεκμηρίωση για ολοκληρωμένη εικόνα της εταιρείας.",
+            generalInfoButton: "Λήψη Γενικών Πληροφοριών",
+            navLinks: ["Σχετικά", "Η Ομάδα", "Οικονομικά", "Πληροφορίες Εταιρείας"]
         };
         
         function updateContent(lang) {
@@ -722,11 +738,17 @@
             
             document.querySelector('#report .section-title').textContent = content.reportTitle;
             document.querySelector('#report p').textContent = content.reportText;
-            document.querySelector('.report-btn').textContent = content.reportButton;
+            document.querySelector('#report .report-btn').textContent = content.reportButton;
+            
+            document.querySelector('#general-info .section-title').textContent = content.generalInfoTitle;
+            document.querySelector('#general-info p').textContent = content.generalInfoText;
+            document.querySelector('#general-info .report-btn').textContent = content.generalInfoButton;
             
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach((link, index) => {
-                link.textContent = content.navLinks[index];
+                if (index > 0) { // Skip the logo link
+                    link.textContent = content.navLinks[index - 1];
+                }
             });
             
             languageToggle.textContent = lang === 'en' ? 'Ελληνικά' : 'English';
